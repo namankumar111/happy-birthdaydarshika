@@ -47,7 +47,7 @@ export default function MessageScreen() {
           {showNote && (
             <motion.div
               initial={{ y: 0, opacity: 0 }}
-              animate={{ y: -340, opacity: 1 }} // Message upar slide hoga
+              animate={{ y: -250, opacity: 1 }} // Message upar slide hoga
               exit={{ y: 0, opacity: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 15 }}
               className="absolute z-10 w-[310px] md:w-[380px] h-[500px] bg-white rounded-xl shadow-2xl p-6 border-x-8 border-t-8 border-blue-100 flex flex-col"

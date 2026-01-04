@@ -34,7 +34,7 @@ export default function MessageScreen() {
         ))}
       </div>
 
-      <motion.h2 className="relative z-50 text-4xl md:text-5xl font-pacifico text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500 mb-8 drop-shadow-[0_0_10px_rgba(6,182,212,0.5)] text-center">
+      <motion.h2 className="relative z-50 text-4xl md:text-5xl font-pacifico text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500 mb-4 drop-shadow-[0_0_10px_rgba(6,182,212,0.5)] text-center">
         {showMessage ? "Your Special Note! 💖" : "A Surprise for Madam! 🎁"}
       </motion.h2>
 
@@ -63,14 +63,14 @@ export default function MessageScreen() {
               animate={{ scale: 1, opacity: 1, y: -60 }}
               exit={{ scale: 0, opacity: 0 }}
               transition={{ type: "spring", stiffness: 100, damping: 15 }}
-              className="absolute z-50 w-[95%] md:w-[420px] h-[520px] bg-white rounded-2xl shadow-[0_25px_60px_rgba(0,0,0,0.4)] p-6 border-8 border-blue-100 flex flex-col"
+              className="absolute z-50 w-[95%] md:w-[420px] h-[460px] bg-white rounded-2xl shadow-[0_25px_60px_rgba(0,0,0,0.4)] p-6 border-8 border-blue-100 flex flex-col"
             >
               <div 
                 onScroll={(e) => {
                     const bottom = Math.abs(e.currentTarget.scrollHeight - e.currentTarget.scrollTop - e.currentTarget.clientHeight) < 1;
                     if (bottom) setShowFeedback(true);
                 }}
-                className="flex-1 overflow-y-auto font-quicksand text-[#1e293b] leading-relaxed pr-2 custom-scrollbar text-sm md:text-base"
+                className="flex-1 overflow-y-auto font-quicksand text-[#1e293b] leading-relaxed pr-2 custom-scrollbar text-[13px] md:text-base"
               >
                 <h4 className="font-pacifico text-2xl text-blue-600 mb-4 text-center border-b pb-2">Happy Birthday, Madam! 🎂</h4>
                 

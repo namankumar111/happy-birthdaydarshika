@@ -2,12 +2,29 @@
 
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import { Heart } from "lucide-react"; // Heart icon ke liye
 
 export default function MessageScreen() {
-  const [showNote, setShowNote] = useState(false)
+  const [showMessage, setShowMessage] = useState(false)
+
+  // Floating Hearts ke liye variants
+  const heartVariants = {
+    initial: { y: 0, opacity: 0.5, scale: 0.5 },
+    animate: {
+      y: -1000,
+      opacity: 0,
+      scale: 1.2,
+      transition: {
+        duration: 8,
+        ease: "linear",
+        repeat: Infinity,
+        repeatType: "loop",
+      },
+    },
+  };
 
   return (
-    <div className="px-4 md:px-6 py-10 flex flex-col items-center justify-center min-h-[80vh]">
+    <div className="relative px-4 md:px-6 py-10 flex flex-col items-center justify-center min-h-[90vh] overflow-hidden">
       {/* Fonts & Custom Scrollbar */}
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap');
@@ -15,42 +32,68 @@ export default function MessageScreen() {
         .font-quicksand { font-family: 'Quicksand', sans-serif; }
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #60a5fa; border-radius: 10px; }
-        .perspective-1000 { perspective: 1000px; }
       `}</style>
 
+      {/* --- Floating Hearts Background --- */}
+      {[...Array(8)].map((_, i) => (
+        <motion.div
+          key={i}
+          variants={heartVariants}
+          initial="initial"
+          animate="animate"
+          style={{
+            position: 'absolute',
+            left: `${Math.random() * 90}%`,
+            top: `${Math.random() * 100}%`,
+            animationDelay: `${Math.random() * 5}s`, // Random delay
+            zIndex: 0, // Peeche rahega
+          }}
+        >
+          <Heart size={30} className={`text-pink-400/${Math.floor(Math.random() * (40 - 10) + 10)}`} fill="currentColor" />
+        </motion.div>
+      ))}
+
       <motion.h2
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="text-4xl md:text-5xl font-pacifico text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500 mb-10 drop-shadow-[0_0_10px_rgba(6,182,212,0.5)] text-center"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5, duration: 0.8 }}
+        className="relative z-20 text-4xl md:text-5xl font-pacifico text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 to-blue-500 mb-10 drop-shadow-[0_0_10px_rgba(6,182,212,0.5)] text-center"
       >
-        {showNote ? "Read Carefully! 🧐" : "A Surprise for Madam! 🎁"}
+        {showMessage ? "Your Special Note! 💖" : "A Surprise for Madam! 🎁"}
       </motion.h2>
 
-      <div className="relative flex flex-col items-center mt-20">
-        {/* --- BLUE BOX / ENVELOPE --- */}
+      <div className="relative flex flex-col items-center justify-center min-h-[400px] w-full max-w-md">
+        {/* --- BLUE GIFT BOX (Static, click-trigger only) --- */}
         <motion.div 
-          onClick={() => setShowNote(!showNote)}
-          animate={{ y: showNote ? 120 : 0 }} // Box niche slide ho jayega jab message khulega
-          transition={{ type: "spring", stiffness: 100, damping: 15 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+          onClick={() => setShowMessage(!showMessage)}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
           className="relative z-30 cursor-pointer w-72 h-44 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-b-xl shadow-2xl flex flex-col items-center justify-center border-t-4 border-blue-400"
         >
-            <span className="text-6xl mb-2">{showNote ? "✉️" : "🎁"}</span>
+            <span className="text-6xl mb-2">{showMessage ? "✉️" : "🎁"}</span>
             <p className="text-white/80 font-quicksand text-xs tracking-widest font-bold">
-               {showNote ? "CLICK TO HIDE" : "CLICK TO OPEN"}
+               {showMessage ? "CLICK TO HIDE" : "CLICK TO OPEN"}
             </p>
+            {!showMessage && (
+                 <motion.div
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                    className="absolute -top-10 text-white text-sm px-3 py-1 bg-blue-500 rounded-full"
+                 >
+                     Tap Me!
+                 </motion.div>
+            )}
         </motion.div>
 
-        {/* --- MESSAGE NOTE (WHITE PAPER) --- */}
+        {/* --- MESSAGE NOTE (SLIDING FROM SIDE) --- */}
         <AnimatePresence>
-          {showNote && (
+          {showMessage && (
             <motion.div
-              initial={{ y: 0, opacity: 0 }}
-              animate={{ y: -250, opacity: 1 }} // Message upar slide hoga
-              exit={{ y: 0, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 100, damping: 15 }}
-              className="absolute z-10 w-[310px] md:w-[380px] h-[500px] bg-white rounded-xl shadow-2xl p-6 border-x-8 border-t-8 border-blue-100 flex flex-col"
+              initial={{ x: "100%", opacity: 0 }} // Right se aayega
+              animate={{ x: 0, opacity: 1 }}     // Center mein aayega
+              exit={{ x: "100%", opacity: 0 }}   // Right mein wapas chala jayega
+              transition={{ type: "spring", stiffness: 80, damping: 12, duration: 0.6 }}
+              className="absolute top-0 left-0 w-full h-full bg-white rounded-xl shadow-2xl p-6 border-8 border-blue-100 flex flex-col z-20"
             >
               <div className="flex-1 overflow-y-auto font-quicksand text-[#1e293b] leading-relaxed pr-2 custom-scrollbar text-sm md:text-base">
                 <h4 className="font-pacifico text-2xl text-blue-600 mb-4 text-center">Happy Birthday, Madam! 🎂</h4>
@@ -73,7 +116,7 @@ export default function MessageScreen() {
 
                 {/* Highlighted Bezatti Part */}
                 <p className="mb-4 text-blue-700 font-semibold italic bg-blue-50 p-3 rounded border-l-4 border-blue-400">
-                  "Bas itna hi kahunga, it feels really good talking to you. Always keep smiling... kyunki haste hue tum ek number ki bevkoof ladki lagti ho jisse dekh kar mujhe hasi aati hai! 😂 Choti-choti baat par gussa hona, aur har cheez delete karwane ki tumhari ye gandi aadat... please sudhar lo!"
+                  "Bss Itni Hi Kahunga, It Feels really Good Talking To You. Always keep smiling... kyunki haste hue tum ek number ki bevkoof ladki lagti ho jisse dekh kar mujhe hasi aati hai! 😂 Choti-choti baat par gussa hona, aur har cheez delete karwane ki tumhari ye gandi aadat... please sudhar lo!"
                 </p>
 
                 <p className="mb-4 font-medium text-gray-600">
@@ -81,11 +124,11 @@ export default function MessageScreen() {
                 </p>
 
                 <p className="mb-4">
-                  Enjoy your special day to the fullest with your family and friends.
+                  Enjoy your special day to the fullest with your family and friends. 🥳 Stay blessed and keep being your crazy self!
                 </p>
 
                 <p className="text-center font-pacifico text-blue-500 mt-4 border-t pt-4 text-xl">
-                  Happy Birthday Again! 🎈✨ & 🥳 Stay blessed and keep being your crazy self!
+                  Happy Birthday Once Again! 🎈✨
                 </p>
               </div>
             </motion.div>
@@ -93,16 +136,17 @@ export default function MessageScreen() {
         </AnimatePresence>
       </div>
 
-      {/* Background Decorations */}
-      <div className="absolute top-1/4 left-10 animate-pulse text-blue-400/20 text-4xl">⭐</div>
-      <div className="absolute bottom-1/4 right-10 animate-bounce text-cyan-400/20 text-4xl">✨</div>
+      {/* Decorative Floating Stars & Dust */}
+      <div className="absolute top-1/4 left-10 animate-pulse text-blue-400/20 text-4xl blur-sm">⭐</div>
+      <div className="absolute bottom-1/4 right-10 animate-bounce text-cyan-400/20 text-4xl blur-sm">✨</div>
+      <div className="absolute top-[60%] left-[80%] animate-spin text-indigo-400/20 text-3xl blur-xs">💫</div>
 
       <motion.p 
-        animate={{ opacity: showNote ? 1 : 0.4 }}
-        className="mt-32 text-blue-200/40 font-quicksand text-[10px] uppercase tracking-[0.4em] text-center"
+        animate={{ opacity: showMessage ? 1 : 0.4 }}
+        className="mt-12 text-blue-200/40 font-quicksand text-[10px] uppercase tracking-[0.4em] text-center"
       >
-        {showNote ? "Scroll inside the card to read more ❤️" : "Tap the gift to reveal the message"}
+        {showMessage ? "Scroll to read full message" : "Tap the gift to reveal the message"}
       </motion.p>
     </div>
   )
-}
+          }

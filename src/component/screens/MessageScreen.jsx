@@ -68,7 +68,7 @@ export default function MessageScreen() {
           onClick={() => setShowMessage(!showMessage)}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
-          className="relative z-30 cursor-pointer w-72 h-44 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-b-xl shadow-2xl flex flex-col items-center justify-center border-t-4 border-blue-400"
+          className={`relative cursor-pointer transition-all duration-500 ${showMessage ? "z-10 opacity-30 scale-90 blur-sm" : "z-30 opacity-100"}`}
         >
             <span className="text-6xl mb-2">{showMessage ? "✉️" : "🎁"}</span>
             <p className="text-white/80 font-quicksand text-xs tracking-widest font-bold">
@@ -93,7 +93,7 @@ export default function MessageScreen() {
               animate={{ x: 0, opacity: 1 }}     // Center mein aayega
               exit={{ x: "100%", opacity: 0 }}   // Right mein wapas chala jayega
               transition={{ type: "spring", stiffness: 80, damping: 12, duration: 0.6 }}
-              className="absolute top-0 left-0 w-full h-full bg-white rounded-xl shadow-2xl p-6 border-8 border-blue-100 flex flex-col z-20"
+              className="absolute top-0 left-0 w-full h-full bg-white rounded-xl shadow-2xl p-6 border-8 border-blue-100 flex flex-col z-40"
             >
               <div className="flex-1 overflow-y-auto font-quicksand text-[#1e293b] leading-relaxed pr-2 custom-scrollbar text-sm md:text-base">
                 <h4 className="font-pacifico text-2xl text-blue-600 mb-4 text-center">Happy Birthday, Madam! 🎂</h4>

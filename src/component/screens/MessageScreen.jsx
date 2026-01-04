@@ -118,7 +118,7 @@ export default function MessageScreen() {
                     animate={{ opacity: 1, y: 0 }}
                     className="mt-10 pt-6 border-t-2 border-dashed border-blue-200 text-center"
                   >
-                    <img src="/gifts/last_gif.gif" alt="Cute surprise gif" className="w-32 mx-auto mb-4 rounded-lg shadow-md" />
+                    <img src="/gifts/intro.gif" alt="Cute surprise gif" className="w-32 mx-auto mb-4 rounded-lg shadow-md" />
                     <p className="font-pacifico text-xl text-blue-600 mb-6">Did you like the surprise? ✨</p>
                     
                     <button 

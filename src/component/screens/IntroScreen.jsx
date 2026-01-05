@@ -6,103 +6,98 @@ import { Sparkles } from "lucide-react"
 
 export default function IntroScreen({ onNext }) {
     return (
-        <div className="relative min-h-screen overflow-hidden py-10 md:py-14 text-center flex flex-col items-center justify-center px-6">
-            
-            {/* Elegant Font Import */}
+        <div className="py-10 md:py-14 text-center flex flex-col items-center justify-center min-h-[80vh]">
+            {/* Font Styling - Photo jaisa clean look */}
             <style jsx global>{`
-                @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;600&family=Quicksand:wght@500;700&display=swap');
-                
-                .font-main { font-family: 'Plus Jakarta Sans', sans-serif; }
-                .font-accent { font-family: 'Quicksand', sans-serif; }
+                @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;500;700&display=swap');
+                .font-main {
+                    font-family: 'Quicksand', sans-serif;
+                }
             `}</style>
 
-            {/* 1. Subtle Floating Background Objects */}
-            <div className="absolute inset-0 -z-10 pointer-events-none">
-                <motion.div 
-                    animate={{ y: [0, 40, 0], opacity: [0.3, 0.6, 0.3] }}
-                    transition={{ duration: 8, repeat: Infinity }}
-                    className="absolute top-20 left-[10%] w-32 h-32 bg-purple-500/10 blur-[60px] rounded-full"
-                />
-                <motion.div 
-                    animate={{ y: [0, -40, 0], opacity: [0.2, 0.5, 0.2] }}
-                    transition={{ duration: 10, repeat: Infinity }}
-                    className="absolute bottom-20 right-[10%] w-40 h-40 bg-pink-500/10 blur-[80px] rounded-full"
-                />
-            </div>
-
-            {/* 2. Simple & Sweet Animation */}
+            {/* Floating Image Animation */}
             <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1 }}
-                style={{ willChange: "transform" }}
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8 }}
             >
                 <motion.img
-                    src="/gifts/intro.gif" 
-                    alt="Cute Greeting"
-                    className="w-[140px] md:w-[180px] drop-shadow-xl rounded-2xl"
-                    animate={{ y: [0, -8, 0] }}
-                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                    src="/gifts/intro.gif"
+                    alt="Cute birthday animation"
+                    className="w-[160px] md:w-[220px] drop-shadow-[0_0_20px_rgba(255,182,193,0.3)]"
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                 />
             </motion.div>
 
-            <div className="mt-10 space-y-4 max-w-lg">
-                {/* Clean & Friendly Heading */}
-                <motion.div
+            <div className="mt-10 space-y-4 font-main px-6">
+                {/* Main Heading - Hey There! */}
+                <motion.h1 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5, duration: 0.8 }}
+                    className="text-white text-5xl md:text-7xl font-bold flex items-center justify-center gap-3"
+                >
+                    Hey there! <span className="text-4xl md:text-6xl animate-pulse">✨</span>
+                </motion.h1>
+
+                {/* Second Heading - Heard it's your Special Day */}
+                <motion.h2 
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.8, duration: 0.8 }}
+                    className="text-gray-200 text-2xl md:text-4xl font-light tracking-wide"
+                >
+                    Heard it's your <span className="text-pink-400 font-medium underline decoration-dotted underline-offset-8">Special Day</span>
+                </motion.h2>
+
+                {/* Descriptive Paragraph */}
+                <motion.div 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 0.5, duration: 0.8 }}
+                    transition={{ delay: 1.2, duration: 1 }}
+                    className="space-y-2 pt-4"
                 >
-                    <h1 className="font-accent text-4xl md:text-5xl font-bold text-white tracking-tight">
-                        Hey there! ✨
-                    </h1>
-                    <h2 className="font-main text-2xl md:text-3xl font-light text-pink-200/90 mt-2">
-                        Heard it's your <span className="text-pink-400 font-semibold underline decoration-dotted underline-offset-8">Special Day</span>
-                    </h2>
+                    <p className="text-lg md:text-xl text-gray-300 font-light">
+                        Sending you warm wishes for a wonderful year ahead.
+                    </p>
+                    <p className="text-lg md:text-xl text-gray-300 font-light">
+                        May your day be filled with joy, laughter, and everything you love!
+                    </p>
                 </motion.div>
 
-                {/* Friendly & Simple Message */}
+                {/* Small Teaser Text */}
                 <motion.p 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1, duration: 0.8 }}
-                    className="font-main text-base md:text-lg text-white/70 leading-relaxed px-4"
-                >
-                    Sending you warm wishes for a wonderful year ahead. 
-                    May your day be filled with joy, laughter, and everything you love! 
-                </motion.p>
-
-                <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 1.4, duration: 0.8 }}
-                    className="font-main text-sm text-pink-300/60 uppercase tracking-[0.2em]"
+                    transition={{ delay: 1.6, duration: 1 }}
+                    className="text-pink-300/60 uppercase tracking-[0.3em] text-sm pt-8 font-bold"
                 >
                     I have a small surprise for you...
                 </motion.p>
             </div>
 
-            {/* 3. Optimized Button Section */}
+            {/* Glowing Button Section */}
             <motion.div 
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 1.8, duration: 0.5 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 2, duration: 0.8 }}
                 className="mt-12"
             >
                 <GradientButton onClick={() => { onNext?.() }}>
                     <motion.div 
-                        className="flex items-center gap-3 px-4 py-1"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
+                        className="flex items-center gap-2 px-4"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
                     >
                         <Sparkles size={20} className="text-white" />
-                        <span className="font-main font-semibold tracking-wide">Take a look</span>
+                        <span className="text-lg font-bold tracking-wider">Take a look</span>
                     </motion.div>
                 </GradientButton>
             </motion.div>
 
-            {/* Soft Central Glow */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 -z-20 w-72 h-72 bg-fuchsia-500/5 blur-[120px] rounded-full" />
+            {/* Background Glow Effect */}
+            <div className="absolute -z-10 w-80 h-80 bg-pink-500/5 blur-[120px] rounded-full" />
         </div>
     )
 }

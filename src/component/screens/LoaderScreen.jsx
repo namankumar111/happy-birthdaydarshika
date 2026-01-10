@@ -4,46 +4,67 @@ import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
 
 export default function LoaderScreen({ onDone }) {
-    const [count, setCount] = useState(3)
+    const [progress, setProgress] = useState(0)
 
     useEffect(() => {
         const t = setInterval(() => {
-            setCount((c) => {
-                if (c <= 1) {
+            setProgress((p) => {
+                if (p >= 100) {
                     clearInterval(t)
-                    setTimeout(() => onDone?.(), 420)
-                    return 0
+                    setTimeout(() => onDone?.(), 500)
+                    return 100
                 }
-                return c - 1
+                return p + 4
             })
-        }, 900)
+        }, 120)
+
         return () => clearInterval(t)
     }, [])
 
     return (
-        <div className="w-full grid place-items-center">
-            <div className="relative">
-                <div className="spinner">
-                    <div className="spinner1"></div>
-                </div>
+        <div className="relative w-full h-screen overflow-hidden grid place-items-center bg-black">
 
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 ">
-                    <motion.div
-                        key={count}
-                        initial={{ scale: 0.3, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        className="text-[110px] md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-pink-400 to-violet-400 drop-shadow-[0_0_30px_rgba(236,72,153,0.25)] p-0.5 pt-7"
-                    >
-                        {count}
-                    </motion.div>
-                </div>
+            {/* background glow */}
+            <div className="absolute inset-0 bg-gradient-to-br from-fuchsia-600/20 via-purple-600/20 to-pink-600/20 blur-3xl animate-pulse" />
+
+            {/* floating blobs */}
+            <motion.div
+                className="absolute w-72 h-72 bg-pink-500/20 rounded-full blur-3xl"
+                animate={{ x: [0, 80, 0], y: [0, -60, 0] }}
+                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            />
+            <motion.div
+                className="absolute w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"
+                animate={{ x: [0, -100, 0], y: [0, 80, 0] }}
+                transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+            />
+
+            {/* loader */}
+            <div className="relative grid place-items-center">
+                <motion.div
+                    className="w-52 h-52 rounded-full border-[6px] border-pink-400/30 border-t-pink-400"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                />
+
+                <motion.div
+                    className="absolute text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 via-pink-400 to-violet-400 drop-shadow-[0_0_30px_rgba(236,72,153,0.35)]"
+                    key={progress}
+                    initial={{ scale: 0.85, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                >
+                    {progress}%
+                </motion.div>
             </div>
+
+            {/* text */}
             <motion.h1
-                className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-fuchsia-400 mt-14 text-center py-1.5"
-                animate={{ opacity: [0.8, 1, 0.8] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute bottom-24 text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-400 to-fuchsia-400 text-center"
+                animate={{ opacity: [0.6, 1, 0.6] }}
+                transition={{ duration: 2.2, repeat: Infinity }}
             >
-                Crafting your special moment...Bevkoof Girl ❤️           </motion.h1>
+                Crafting your special moment ❤️
+            </motion.h1>
         </div>
     )
 }
